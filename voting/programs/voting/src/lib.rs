@@ -10,7 +10,6 @@ pub mod voting {
 
     pub fn init_poll(ctx: Context<InitPoll>, _poll_id: u64, start: u64, end: u64,
                      name: String, description: String) -> Result<()> {
-        // crate::instructions::initialize::handle_initialize(ctx)
         let poll = &mut ctx.accounts.poll_account;
         poll.poll_description = description;
         poll.poll_name = name;
@@ -28,7 +27,11 @@ pub mod voting {
     }
 
 
-    // pub fn vote(ctx: Context<Vote>) -> Result<()> {}
+    pub fn vote(ctx: Context<Vote>) -> Result<()> {
+
+
+        Ok(())
+    }
 
 }
 
@@ -68,6 +71,20 @@ pub struct InitializeCandidate {
     pub system_program: Program<'info, System>,
 }
 
+#[derive(Accounts)]
+#[instruction(poll_id: u64)]
+pub struct Vote <'info>{
+    #[account(mut)]
+    pub signer: Signer<'info>,
+
+    #[account(mut, seeds = [b"poll".as_ref(), poll_id.to_le_bytes().as_ref()], bump)]
+    pub poll_account: Account<'info,  PollAccount>,
+
+
+    #[account(seeds = [poll_id.to_le_bytes().as_ref(), candidate.as_ref()], bump)]
+    pub candidate_account: Account<'info,  CandidateAccount>,
+
+}
 
 
 #[account]
