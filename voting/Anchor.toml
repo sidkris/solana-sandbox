@@ -10,8 +10,8 @@ skip-lint = false
 voting = "E61j5HM3hNhxHMruCHRp1M2dbuvahvdjZ4X1My15A16A"
 
 [provider]
-cluster = "localnet"
-wallet = "~/.config/solana/id.json"
+cluster = "Devnet"
+wallet = "/home/sidkr/projects/solana-sandbox/id.json"
 
 [scripts]
 test = "cargo test"
