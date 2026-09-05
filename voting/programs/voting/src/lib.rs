@@ -11,13 +11,25 @@ pub mod voting {
     pub fn init_poll(ctx: Context<InitPoll>, _poll_id: u64, start: u64, end: u64,
                      name: String, description: String) -> Result<()> {
         // crate::instructions::initialize::handle_initialize(ctx)
-        let mut poll = ctx.accounts.poll_account;
+        let poll = &mut ctx.accounts.poll_account;
         poll.poll_description = description;
         poll.poll_name = name;
         poll.poll_voting_start = start;
         poll.poll_voting_end = end;
         Ok(());
     }
+
+    pub fn initialize_candidate(ctx: Context<InitializeCandidate>,
+                               _poll_id: u64,
+                               candidate: String) -> Result<()> {
+        ctx.accounts.candidate_account.candidate_name = candidate;
+        ctx.accounts.poll_account.poll_option_index += 1;
+        Ok(())
+    }
+
+
+    // pub fn vote(ctx: Context<Vote>) -> Result<()> {}
+
 }
 
 #[derive(Accounts)]
